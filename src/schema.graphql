@@ -1,0 +1,210 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddActualAmountDto {
+  amount: Int!
+  id: Int!
+  userId: Int
+}
+
+type AuthPayload {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+  user: UserPayload!
+}
+
+type BudgetPayload {
+  amount: Int!
+  category: String!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  endDate: DateTime!
+  id: Int!
+  startDate: DateTime!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+input CreateBudgetDto {
+  amount: Int!
+  category: String!
+  endDate: DateTime!
+  startDate: DateTime!
+  userId: Int
+}
+
+input CreateGoalDto {
+  currentAmount: Int!
+  name: String!
+  targetAmount: Int!
+  targetDate: DateTime!
+  userId: Int
+}
+
+input CreateTransactionDto {
+  amount: Int!
+  date: DateTime!
+  description: String
+  type: TransactionType!
+}
+
+input CreateUserDto {
+  email: String!
+  isAccountDisabled: Boolean
+  name: String
+  password: String!
+  role: Role = User
+  username: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type GoalPayload {
+  actualAmount: Int
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  currentAmount: Int!
+  id: Int!
+  name: String!
+  targetAmount: Int!
+  targetDate: DateTime!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+"""
+A field whose value is a JSON Web Token (JWT): https://jwt.io/introduction.
+"""
+scalar JWT
+
+input LoginDto {
+  password: String!
+  username: String!
+}
+
+type Mutation {
+  addActualAmount(data: AddActualAmountDto!): GoalPayload!
+  createBudget(data: CreateBudgetDto!): BudgetPayload!
+  createGoal(data: CreateGoalDto!): GoalPayload!
+  createTransaction(data: CreateTransactionDto!): TransactionPayload!
+  createUser(data: CreateUserDto!): UserPayload!
+  deleteBudget(id: Int!): Boolean!
+  deleteGoal(id: Int!): Boolean!
+  deleteTransaction(id: Int!): Boolean!
+  deleteUser: Boolean!
+  login(data: LoginDto!): AuthPayload!
+  refreshToken(refreshToken: String!): TokenPayload!
+  register(data: RegisterDto!): UserPayload!
+  updateBudget(data: CreateBudgetDto!, id: Int!): BudgetPayload!
+  updateGoal(data: CreateGoalDto!, id: Int!): GoalPayload!
+  updateTransaction(data: CreateTransactionDto!, id: Int!): TransactionPayload!
+  updateUser(data: UpdateUserDto!): UserPayload!
+}
+
+type PageInfoPayload {
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+}
+
+type PaginatedTransactionPayload {
+  edges: [TransactionPayloadEdge!]
+  pageInfo: PageInfoPayload!
+  totalCount: Int!
+}
+
+type Query {
+  getBudgetById(id: Int!): BudgetPayload!
+  getBudgets: [BudgetPayload!]!
+  getGoalById(id: Int!): GoalPayload!
+  getGoals: [GoalPayload!]!
+  getTransactionById(id: Int!): TransactionPayload!
+  getTransactions(after: String, before: String, first: Int, last: Int, skip: Int, type: TransactionType, userId: Int): PaginatedTransactionPayload!
+  getUser(id: Int!): UserPayload!
+  getUsers(limit: Int!, offset: Int!): UsersPayload!
+}
+
+input RegisterDto {
+  email: String!
+  name: String!
+  password: String!
+  username: String!
+}
+
+"""User's role"""
+enum Role {
+  Admin
+  SuperAdmin
+  User
+}
+
+type TokenPayload {
+  """JWT access token"""
+  accessToken: JWT!
+
+  """JWT refresh token"""
+  refreshToken: JWT!
+}
+
+type TransactionPayload {
+  amount: Int!
+
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  date: DateTime!
+  description: String!
+  id: Int!
+  type: TransactionType!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  userId: Int!
+}
+
+type TransactionPayloadEdge {
+  cursor: String!
+  node: TransactionPayload!
+}
+
+"""Type of transaction"""
+enum TransactionType {
+  Expense
+  Income
+}
+
+input UpdateUserDto {
+  name: String
+  password: String
+}
+
+type UserPayload {
+  """Identifies the date and time when the object was created."""
+  createdAt: DateTime!
+  email: String!
+  id: Int!
+  name: String!
+  role: Role!
+
+  """Identifies the date and time when the object was last updated."""
+  updatedAt: DateTime!
+  username: String!
+}
+
+type UsersPayload {
+  count: Int!
+  users: [UserPayload!]!
+}
